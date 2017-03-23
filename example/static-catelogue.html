@@ -10,6 +10,10 @@
 	<h3>this is 1.1</h3>
 	<h3>this is 1.2</h3>
 	<h3>this is 1.3</h3>
+	<h2>this is 1</h2>
+	<h3>this is 1.1</h3>
+	<h3>this is 1.2</h3>
+	<h3>this is 1.3</h3>
 	<h1>title test</h1>
 	<h2>this is 2</h2>
 	<h3>this is 2.1</h3>
@@ -43,12 +47,11 @@
 					// peers.push(nextElement);
 					seekForHierarchy(nextElement, tree);
 				}else{ //父级标题
-					console.log(1)
-					var parentNode = tree.parent;
-					while(parentNode.self.tagName != nextElement.tagName){
+					var parentNode = tree;
+					while(parentNode && parentNode.self.tagName != nextElement.tagName){
 						parentNode = parentNode.parent;
 					}
-					seekForHierarchy(nextElement, parentNode);
+					seekForHierarchy(nextElement, parentNode.parent);
 				}
 			}
 		}
