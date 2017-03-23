@@ -1,0 +1,26 @@
+{
+  "name": "x-category",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "webpack start webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiekun1992/xCatelogue.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiekun1992/xCatelogue/issues"
+  },
+  "homepage": "https://github.com/xiekun1992/xCatelogue#readme",
+  "devDependencies": {
+    "webpack": "^2.3.1"
+  }
+}
