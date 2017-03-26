@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<link rel="stylesheet" href="../src/catelogue.css">
 </head>
 <body id="b">
 	<h1>title test</h1>
@@ -29,6 +30,14 @@
 	var c = new xCatelogue({
 		contentRootElement: '#b'
 	});
+	var cHtml = c.generateCatelogue();
+	document.body.innerHTML += cHtml;
+	window.onhashchange = function(){
+		var hash = location.hash;
+		if(hash.length > 1){
+			document.querySelector("a[href='" + hash + "']").classList.add('active');
+		}
+	};
 	// var seekForHierarchy = function(element, tree){
 	// 	if(element instanceof HTMLElement){
 	// 		var node = {self: element, children: [], parent: tree};

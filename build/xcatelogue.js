@@ -11,55 +11,58 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/*!**************************!*\
+  !*** ./src/catelogue.js ***!
+  \**************************/
 /***/ function(module, exports) {
 
 	'use strict';
-
+	
 	var xCatelogue = function(options){
 		// this.defaultOptions = {
 		// 	element: null,
-
+	
 		// };
 		this.element = null;
 		this.catelogue = [];
@@ -98,7 +101,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			for(var i in h){
 				if(h.hasOwnProperty(i)){
 					var o = h[i], childrenHtml = catelogueToHTML(o.children);
-					console.log(childrenHtml)
 					html += '<li><a href="#' + o.self.getAttribute('id') + '">' + o.self.innerText + '</a>' + childrenHtml + '</li>';
 				}
 			}
@@ -123,7 +125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		if(element instanceof HTMLElement){
 			var node = {self: element, children: [], parent: tree};
 			tree.children.push(node);
-
+	
 			var titleTags = ["H1", "H2", "H3", "H4", "H5", "H6"];
 			var tagName = element.tagName;
 			var tagNameIndex = titleTags.indexOf(tagName);
@@ -149,10 +151,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}
 	};
-
+	
 	module.exports = xCatelogue;
 
 /***/ }
 /******/ ])
 });
 ;
+//# sourceMappingURL=xcatelogue.js.map

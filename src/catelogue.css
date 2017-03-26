@@ -1,0 +1,31 @@
+.x-catelogue ul, .x-catelogue li {
+	position: relative;
+    padding-left: 1em;
+    margin: 0;
+    list-style: none;
+}
+.x-catelogue ul, .x-catelogue>ul>li {
+    padding: 0;
+}
+.x-catelogue li a{
+	text-decoration: none;
+	color: #555;
+	position: relative;
+}
+.x-catelogue li a.active:before{
+	content: '';
+	width: 3px;
+	height: 100%;
+	background-color: #3da1ff;
+	position: absolute;
+	top: 0;
+	left: -10px;
+}
+.x-catelogue {
+    position: fixed;
+    right: 10px;
+    top: 20px;
+    background: #fafafa;
+    padding: 5px 10px 10px 10px;
+    border: 1px solid #eee;
+}
