@@ -26,39 +26,42 @@
 	<h3>this is 3.3</h3>
 	<script src="../build/xcatelogue.js"></script>
 	<script>
-	var seekForHierarchy = function(element, tree){
-		if(element instanceof HTMLElement){
-			var node = {self: element, children: [], parent: tree};
-			tree.children.push(node);
+	var c = new xCatelogue({
+		contentRootElement: '#b'
+	});
+	// var seekForHierarchy = function(element, tree){
+	// 	if(element instanceof HTMLElement){
+	// 		var node = {self: element, children: [], parent: tree};
+	// 		tree.children.push(node);
 
-			var titleTags = ["H1", "H2", "H3", "H4", "H5", "H6"];
-			var tagName = element.tagName;
-			var tagNameIndex = titleTags.indexOf(tagName);
+	// 		var titleTags = ["H1", "H2", "H3", "H4", "H5", "H6"];
+	// 		var tagName = element.tagName;
+	// 		var tagNameIndex = titleTags.indexOf(tagName);
 			
-			var nextElement = element.nextElementSibling;
-			if(nextElement){
-				var pos = titleTags.indexOf(nextElement.tagName);
-				if(pos == -1){ //非标题标签
-					return ;
-				}else if(pos > tagNameIndex){ //子标题
-					// node.children.push(nextElement);
-					seekForHierarchy(nextElement, node);
-				}else if(pos == tagNameIndex){ //同级标题
-					// peers.push(nextElement);
-					seekForHierarchy(nextElement, tree);
-				}else{ //父级标题
-					var parentNode = tree;
-					while(parentNode && parentNode.self.tagName != nextElement.tagName){
-						parentNode = parentNode.parent;
-					}
-					seekForHierarchy(nextElement, parentNode.parent);
-				}
-			}
-		}
-	}
-	var tree = [];
-	seekForHierarchy(document.body.children[0], {self: document.body, children: tree, parent: null});
-	console.log(tree)
+	// 		var nextElement = element.nextElementSibling;
+	// 		if(nextElement){
+	// 			var pos = titleTags.indexOf(nextElement.tagName);
+	// 			if(pos == -1){ //非标题标签
+	// 				return ;
+	// 			}else if(pos > tagNameIndex){ //子标题
+	// 				// node.children.push(nextElement);
+	// 				seekForHierarchy(nextElement, node);
+	// 			}else if(pos == tagNameIndex){ //同级标题
+	// 				// peers.push(nextElement);
+	// 				seekForHierarchy(nextElement, tree);
+	// 			}else{ //父级标题
+	// 				var parentNode = tree;
+	// 				while(parentNode && parentNode.self.tagName != nextElement.tagName){
+	// 					parentNode = parentNode.parent;
+	// 				}
+	// 				seekForHierarchy(nextElement, parentNode.parent);
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// var tree = [];
+	// seekForHierarchy(document.body.children[0], {self: document.body, children: tree, parent: null});
+	// console.log(tree)
 	</script>
 </body>
 </html>

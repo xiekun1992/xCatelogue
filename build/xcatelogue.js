@@ -11,146 +11,148 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
+
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-/******/
+
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/
+
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
 /******/ 		};
-/******/
+
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+
 /******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
+/******/ 		module.loaded = true;
+
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
-/******/
+
+
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-/******/
+
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-/******/
+
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-"use strict";
+	'use strict';
 
+	var xCatelogue = function(options){
+		// this.defaultOptions = {
+		// 	element: null,
 
-var xCatelogue = function(options){
-	// this.defaultOptions = {
-	// 	element: null,
-
-	// };
-	this.titles = {};
-	this.selector = options.contentRootElement;
-	if(this.selector){
-		try{
-			var element = document.querySelector(this.selector);
-		}catch(e){
-			e.name = 'contentRootElement must be a valid Selector';
+		// };
+		this.element = null;
+		this.catelogue = [];
+		this.titles = {};
+		this.selector = options.contentRootElement;
+		if(this.selector){
+			// try{
+				this.element = document.querySelector(this.selector);
+			// }catch(e){
+				if(!this.element){
+					throw new Error('contentRootElement must be a valid Selector');
+				}
+				this.updateCatelogue();
+			// }
+		}else{
+			throw new Error('contentRootElement can not be found');
 		}
-	}else{
-		throw new Error('contentRootElement can not be found');
-	}
-	this.extractTitle();
-}
-xCatelogue.prototype.extractTitle = function(){
-	// 考虑搜索引擎对h的规则，h1应当只有一个，所以从h2开始计算标题
-	this.titles.h1 = Array.from(document.querySelectorAll(this.selector + ' h1'));
-	this.titles.h2 = Array.from(document.querySelectorAll(this.selector + ' h2'));
-	this.titles.h3 = Array.from(document.querySelectorAll(this.selector + ' h3'));
-	setTitlesId(this.titles);
-}
-xCatelogue.prototype.generateCatelogue = function(){
-
-	seekForHierarchy(this.titles.h1);
-	return '<div class="x-catelogue">' + catelogueToHTML(this.titles.h1) + '</div>';
-}
-var catelogueToHTML = function(h){
-	var html = "";
-	if(h.length > 0){
-		h.forEach(function(o, i){
-			html += '<li><a href="#' + o.getAttribute('id') + '">' + o.innerText + '</a></li>';
-		});
-		html = '<ul>' + html + '</ul>';
-	}
-	return html;
-}
-var setTitlesId = function(titles){
-	for(var h in titles){
-		if(titles.hasOwnProperty(h)){
-			titles[h].forEach(function(o, i){
-				o.setAttribute('id', 'xCategory' + h + '-' + i);
-			});
+		this.extractTitle();
+	};
+	xCatelogue.prototype.extractTitle = function(){
+		// 考虑搜索引擎对h的规则，h1应当只有一个，所以从h2开始计算标题
+		this.titles.h1 = Array.from(document.querySelectorAll(this.selector + ' h1'));
+		this.titles.h2 = Array.from(document.querySelectorAll(this.selector + ' h2'));
+		this.titles.h3 = Array.from(document.querySelectorAll(this.selector + ' h3'));
+		setTitlesId(this.titles);
+	};
+	xCatelogue.prototype.generateCatelogue = function(){
+		return '<div class="x-catelogue">' + catelogueToHTML(this.catelogue) + '</div>';
+	};
+	xCatelogue.prototype.updateCatelogue = function(){
+		seekForHierarchy(this.element.children[0], {self: this.element, children: this.catelogue, parent: null});
+	};
+	var catelogueToHTML = function(h){
+		var html = "";
+		if(h.length > 0){
+			for(var i in h){
+				if(h.hasOwnProperty(i)){
+					var o = h[i], childrenHtml = catelogueToHTML(o.children);
+					console.log(childrenHtml)
+					html += '<li><a href="#' + o.self.getAttribute('id') + '">' + o.self.innerText + '</a>' + childrenHtml + '</li>';
+				}
+			}
+			html = '<ul>' + html + '</ul>';
 		}
-	}
-}
-var countOffsetTop = function(element){
-	var offsetTop = element.offsetTop, offsetParent = element.offsetParent;
-	return offsetParent && (offsetTop + countOffsetTop(offsetParent)) || offsetTop;
-}
-var seekForHierarchy = function(element){
-	var titleTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-	var tagNameIndex = titleTags.indexOf(element.tagName.toLowerCase()) + 1;
-	titleTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].slice(tagName);
+		return html;
+	};
+	var setTitlesId = function(titles){
+		for(var h in titles){
+			if(titles.hasOwnProperty(h)){
+				titles[h].forEach(function(o, i){
+					o.setAttribute('id', 'xCategory' + h + '-' + i);
+				});
+			}
+		}
+	};
+	var countOffsetTop = function(element){
+		var offsetTop = element.offsetTop, offsetParent = element.offsetParent;
+		return offsetParent && (offsetTop + countOffsetTop(offsetParent)) || offsetTop;
+	};
+	var seekForHierarchy = function(element, tree){
+		if(element instanceof HTMLElement){
+			var node = {self: element, children: [], parent: tree};
+			tree.children.push(node);
 
-	var subTitles = [];
-	if(element.nextElementSibling.tagName.toLowerCase().indexOf(titleTags) != -1){ //是子标题
-		subTitles.push(element.nextElementSibling);
-	}else if(element.tagName === element.nextElementSibling.tagName){ //同级标题
+			var titleTags = ["H1", "H2", "H3", "H4", "H5", "H6"];
+			var tagName = element.tagName;
+			var tagNameIndex = titleTags.indexOf(tagName);
+			
+			var nextElement = element.nextElementSibling;
+			if(nextElement){
+				var pos = titleTags.indexOf(nextElement.tagName);
+				if(pos == -1){ //非标题标签
+					return ;
+				}else if(pos > tagNameIndex){ //子标题
+					// node.children.push(nextElement);
+					seekForHierarchy(nextElement, node);
+				}else if(pos == tagNameIndex){ //同级标题
+					// peers.push(nextElement);
+					seekForHierarchy(nextElement, tree);
+				}else{ //父级标题
+					var parentNode = tree;
+					while(parentNode && parentNode.self.tagName != nextElement.tagName){
+						parentNode = parentNode.parent;
+					}
+					seekForHierarchy(nextElement, parentNode.parent);
+				}
+			}
+		}
+	};
 
-	}
+	module.exports = xCatelogue;
 
-}
-
-
-/***/ })
-/******/ ]);
+/***/ }
+/******/ ])
 });
+;
