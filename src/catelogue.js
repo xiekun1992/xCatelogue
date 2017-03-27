@@ -28,9 +28,9 @@ xCatelogue.prototype.extractTitle = function(){
 	this.titles.h1 = Array.from(document.querySelectorAll(this.selector + ' h1'));
 	this.titles.h2 = Array.from(document.querySelectorAll(this.selector + ' h2'));
 	this.titles.h3 = Array.from(document.querySelectorAll(this.selector + ' h3'));
-	this.titles.h1 = Array.from(document.querySelectorAll(this.selector + ' h4'));
-	this.titles.h2 = Array.from(document.querySelectorAll(this.selector + ' h5'));
-	this.titles.h3 = Array.from(document.querySelectorAll(this.selector + ' h6'));
+	this.titles.h4 = Array.from(document.querySelectorAll(this.selector + ' h4'));
+	this.titles.h5 = Array.from(document.querySelectorAll(this.selector + ' h5'));
+	this.titles.h6 = Array.from(document.querySelectorAll(this.selector + ' h6'));
 	setTitlesId(this.titles);
 };
 xCatelogue.prototype.generateCatelogue = function(){
