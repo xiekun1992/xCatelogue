@@ -4,6 +4,11 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="../src/catelogue.css">
+	<style>
+	h1,h2,h3,h4,h5,h6{
+		height: 50em;
+	}
+	</style>
 </head>
 <body id="b">
 	<!-- <h1>title test</h1> -->
@@ -32,12 +37,48 @@
 	});
 	var cHtml = c.generateCatelogue();
 	document.body.innerHTML += cHtml;
-	window.onhashchange = function(){
-		var hash = location.hash;
+	// window.addEventListener('hashchange', function(){
+	// 	highlight(location.hash);
+	// }, false);
+	var as = Array.from(document.querySelectorAll('.x-catelogue a')), clicked = false;
+	for(var a of as){
+		a.addEventListener('click', function(e){
+			// console.log('click')
+			clicked = true;
+			highlight(e.target.getAttribute('href'));
+		}, false);
+	}
+	function highlight(hash){
+		// console.log(hash)
 		if(hash.length > 1){
+			var as = Array.from(document.querySelectorAll('.x-catelogue a'));
+			for(var a of as){
+				a.classList.remove('active');
+			}
 			document.querySelector("a[href='" + hash + "']").classList.add('active');
 		}
-	};
+	}
+	highlight(location.hash);
+	setTimeout(function(){
+		window.addEventListener('scroll', function(){
+			// scroll会在click触发完成之后执行，使用哨兵clicked去除多余的highlight调用
+			if(clicked) return clicked = false;
+			// 滚动到底了
+			if(window.scrollY + window.innerHeight == document.body.clientHeight){
+				highlight('#' + c.elementOffsetTop[c.elementOffsetTop.length - 2].id);
+			}else{
+				var pre = c.elementOffsetTop[0];
+				for(var e of c.elementOffsetTop){
+					if(e.offsetTop > window.scrollY){
+						console.log(e);
+						return highlight('#' + pre.id);
+					}else{
+						pre = e;
+					}
+				}
+			}
+		});
+	},100);
 	</script>
 </body>
 </html>

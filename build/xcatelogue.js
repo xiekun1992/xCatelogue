@@ -66,6 +66,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		// };
 		this.element = null;
 		this.catelogue = [];
+		this.elementOffsetTop = [];
 		this.titles = {};
 		this.selector = options.contentRootElement;
 		if(this.selector){
@@ -75,7 +76,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				if(!this.element){
 					throw new Error('contentRootElement must be a valid Selector');
 				}
-				this.updateCatelogue();
 			// }
 		}else{
 			throw new Error('contentRootElement can not be found');
@@ -93,10 +93,18 @@ return /******/ (function(modules) { // webpackBootstrap
 		setTitlesId(this.titles);
 	};
 	xCatelogue.prototype.generateCatelogue = function(){
+		this.updateCatelogue();
 		return '<div class="x-catelogue">' + catelogueToHTML(this.catelogue) + '</div>';
 	};
 	xCatelogue.prototype.updateCatelogue = function(){
 		root = {self: this.element, children: this.catelogue, parent: null};
+		for(var c of Array.from(this.element.children)){
+			if(["H1", "H2", "H3", "H4", "H5", "H6"].indexOf(c.tagName) != -1){
+				this.elementOffsetTop.push({offsetTop: countOffsetTop(c), id: c.getAttribute('id')});
+			}
+			// label offsetTop
+		}
+		this.elementOffsetTop.push({offsetTop: Infinity});
 		seekForHierarchy(this.element.children[0], root);
 	};
 	
