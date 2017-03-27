@@ -87,14 +87,21 @@ return /******/ (function(modules) { // webpackBootstrap
 		this.titles.h1 = Array.from(document.querySelectorAll(this.selector + ' h1'));
 		this.titles.h2 = Array.from(document.querySelectorAll(this.selector + ' h2'));
 		this.titles.h3 = Array.from(document.querySelectorAll(this.selector + ' h3'));
+		this.titles.h1 = Array.from(document.querySelectorAll(this.selector + ' h4'));
+		this.titles.h2 = Array.from(document.querySelectorAll(this.selector + ' h5'));
+		this.titles.h3 = Array.from(document.querySelectorAll(this.selector + ' h6'));
 		setTitlesId(this.titles);
 	};
 	xCatelogue.prototype.generateCatelogue = function(){
 		return '<div class="x-catelogue">' + catelogueToHTML(this.catelogue) + '</div>';
 	};
 	xCatelogue.prototype.updateCatelogue = function(){
-		seekForHierarchy(this.element.children[0], {self: this.element, children: this.catelogue, parent: null});
+		root = {self: this.element, children: this.catelogue, parent: null};
+		seekForHierarchy(this.element.children[0], root);
 	};
+	
+	var root;
+	
 	var catelogueToHTML = function(h){
 		var html = "";
 		if(h.length > 0){
@@ -146,7 +153,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					while(parentNode && parentNode.self.tagName != nextElement.tagName){
 						parentNode = parentNode.parent;
 					}
-					seekForHierarchy(nextElement, parentNode.parent);
+					seekForHierarchy(nextElement, parentNode && parentNode.parent || root);
 				}
 			}
 		}
