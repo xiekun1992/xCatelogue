@@ -8,9 +8,11 @@
     padding: 0;
 }
 .x-catelogue li a{
-	text-decoration: none;
-	color: #555;
-	position: relative;
+    text-decoration: none;
+    color: #555;
+    position: relative;
+    display: block;
+    padding: 2px 15px;
 }
 .x-catelogue li a.active:before{
 	content: '';
@@ -19,7 +21,12 @@
 	background-color: #3da1ff;
 	position: absolute;
 	top: 0;
-	left: -10px;
+	left: 0;
+}
+.x-catelogue li a:hover{
+	color: #3da1ff;
+    background-color: #fff;
+    outline: 1px solid;
 }
 .x-catelogue {
     position: fixed;
