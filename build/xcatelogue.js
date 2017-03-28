@@ -60,23 +60,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	var xCatelogue = function(options){
-		// this.defaultOptions = {
-		// 	element: null,
-	
-		// };
 		this.element = null;
 		this.catelogue = [];
 		this.elementOffsetTop = [];
 		this.titles = {};
 		this.selector = options.contentRootElement;
 		if(this.selector){
-			// try{
-				this.element = document.querySelector(this.selector);
-			// }catch(e){
-				if(!this.element){
-					throw new Error('contentRootElement must be a valid Selector');
-				}
-			// }
+			this.element = document.querySelector(this.selector);
+			if(!this.element){
+				throw new Error('contentRootElement must be a valid Selector');
+			}
 		}else{
 			throw new Error('contentRootElement can not be found');
 		}
@@ -100,12 +93,59 @@ return /******/ (function(modules) { // webpackBootstrap
 		root = {self: this.element, children: this.catelogue, parent: null};
 		for(var c of Array.from(this.element.children)){
 			if(["H1", "H2", "H3", "H4", "H5", "H6"].indexOf(c.tagName) != -1){
+				// label offsetTop
 				this.elementOffsetTop.push({offsetTop: countOffsetTop(c), id: c.getAttribute('id')});
 			}
-			// label offsetTop
 		}
 		this.elementOffsetTop.push({offsetTop: Infinity});
 		seekForHierarchy(this.element.children[0], root);
+	};
+	xCatelogue.prototype.bootstrap = function(){
+		var as = Array.from(document.querySelectorAll('.x-catelogue a')), clicked = false;
+		for(var a of as){
+			a.addEventListener('click', function(e){
+				// console.log('click')
+				clicked = true;
+				highlight(e.target.getAttribute('href'));
+			}, false);
+		}
+		function highlight(hash){
+			// console.log(hash)
+			if(hash.length > 1){
+				var as = Array.from(document.querySelectorAll('.x-catelogue a'));
+				for(var a of as){
+					a.classList.remove('active');
+				}
+				document.querySelector("a[href='" + hash + "']").classList.add('active');
+			}
+		}
+		function onscroll(){
+			// scroll会在click触发完成之后执行，使用哨兵clicked去除多余的highlight调用
+			if(clicked) return clicked = false;
+			// 滚动到底了
+			var id;
+			if(window.scrollY + window.innerHeight == document.body.clientHeight){
+				id = c.elementOffsetTop[c.elementOffsetTop.length - 2].id;
+			}else{
+				var pre = c.elementOffsetTop[0];
+				for(var e of c.elementOffsetTop){
+					// 计算出现的偏移量容错
+					if(e.offsetTop == window.scrollY || e.offsetTop == window.scrollY + 1){
+						// console.log(e);
+						id = e.id;
+						break;
+					}else if(e.offsetTop > window.scrollY){
+						id = pre.id;
+						break;
+					}else{
+						pre = e;
+					}
+				}
+			}
+			highlight('#' + id);
+		}
+		onscroll();
+		window.addEventListener('scroll', onscroll);
 	};
 	
 	var root;
