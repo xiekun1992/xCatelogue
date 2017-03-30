@@ -64,7 +64,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		this.catelogue = [];
 		this.elementOffsetTop = [];
 		this.titles = {};
+	
 		this.selector = options.contentContainer;
+		this.showBackToTop = options.showBackToTop;
+		(typeof this.showBackToTop === 'undefined') && (this.showBackToTop = true);
 		if(this.selector){
 			this.element = document.querySelector(this.selector);
 			if(!this.element){
@@ -97,7 +100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.catelogue.length = 0;
 			this.updateCatelogue();
 		}
-		return '<div class="x-catelogue">' + catelogueToHTML(this.catelogue) + '</div>';
+		return '<div class="x-catelogue">' + catelogueToHTML(this.catelogue, this.showBackToTop) + '</div>';
 	};
 	xCatelogue.prototype.updateCatelogue = function(){
 		root = {self: this.element, children: this.catelogue, parent: null};
@@ -111,68 +114,72 @@ return /******/ (function(modules) { // webpackBootstrap
 		seekForHierarchy(this.element.children[0], root);
 	};
 	xCatelogue.prototype.bootstrap = function(){
-		var as = Array.from(document.querySelectorAll('.x-catelogue a')), clicked = false;
+		var as = Array.from(document.querySelectorAll('.x-catelogue a'));
+		clicked = false;
 		for(var a of as){
-			a.addEventListener('click', function(e){
-				// console.log('click')
-				clicked = true;
-				highlight(e.target.getAttribute('href'));
-			}, false);
+			if(a.getAttribute('href').indexOf('#') == 0){
+				a.addEventListener('click', function(e){
+					// console.log('click')
+					clicked = true;
+					highlight(e.target.getAttribute('href'));
+				}, false);
+			}
 		}
 		onscroll();
 		window.addEventListener('scroll', onscroll);
 	
-		function highlight(hash){
-			// console.log(hash)
-			if(hash.length > 1){
-				var as = Array.from(document.querySelectorAll('.x-catelogue a'));
-				for(var a of as){
-					a.classList.remove('active');
-				}
-				var currentHash = document.querySelectorAll("a[href='" + hash + "']");
-				currentHash && currentHash.forEach(function(h){
-					h.classList.add('active');
-				});
-			}
-		}
-		function onscroll(){
-			// scroll会在click触发完成之后执行，使用哨兵clicked去除多余的highlight调用
-			if(clicked) return clicked = false;
-			// 滚动到底了
-			var id;
-			if(window.scrollY + window.innerHeight == document.body.clientHeight){
-				id = c.elementOffsetTop[c.elementOffsetTop.length - 2].id;
-			}else{
-				var pre = c.elementOffsetTop[0];
-				for(var e of c.elementOffsetTop){
-					// 计算出现的偏移量容错
-					if(e.offsetTop == window.scrollY || e.offsetTop == window.scrollY + 1){
-						// console.log(e);
-						id = e.id;
-						break;
-					}else if(e.offsetTop > window.scrollY){
-						id = pre.id;
-						break;
-					}else{
-						pre = e;
-					}
-				}
-			}
-			highlight('#' + id);
-		}
 	};
+	function highlight(hash){
+		// console.log(hash)
+		if(hash.length > 1){
+			var as = Array.from(document.querySelectorAll('.x-catelogue a'));
+			for(var a of as){
+				a.classList.remove('active');
+			}
+			var currentHash = document.querySelectorAll("a[href='" + hash + "']");
+			currentHash && currentHash.forEach(function(h){
+				h.classList.add('active');
+			});
+		}
+	}
+	function onscroll(){
+		// scroll会在click触发完成之后执行，使用哨兵clicked去除多余的highlight调用
+		if(clicked) return clicked = false;
+		// 滚动到底了
+		var id;
+		if(window.scrollY + window.innerHeight == document.body.clientHeight){
+			id = c.elementOffsetTop[c.elementOffsetTop.length - 2].id;
+		}else{
+			var pre = c.elementOffsetTop[0];
+			for(var e of c.elementOffsetTop){
+				// 计算出现的偏移量容错
+				if(e.offsetTop == window.scrollY || e.offsetTop == window.scrollY + 1){
+					// console.log(e);
+					id = e.id;
+					break;
+				}else if(e.offsetTop > window.scrollY){
+					id = pre.id;
+					break;
+				}else{
+					pre = e;
+				}
+			}
+		}
+		highlight('#' + id);
+	}
 	
-	var root;
+	var root, clicked = false;
 	
-	var catelogueToHTML = function(h){
+	var catelogueToHTML = function(catelogueDOM, appendBackToTop){
 		var html = "";
-		if(h.length > 0){
-			for(var i in h){
-				if(h.hasOwnProperty(i)){
-					var o = h[i], childrenHtml = catelogueToHTML(o.children);
+		if(catelogueDOM.length > 0){
+			for(var i in catelogueDOM){
+				if(catelogueDOM.hasOwnProperty(i)){
+					var o = catelogueDOM[i], childrenHtml = catelogueToHTML(o.children);
 					html += '<li><a href="#' + o.self.getAttribute('id') + '">' + o.self.innerText + '</a>' + childrenHtml + '</li>';
 				}
 			}
+			html = appendBackToTop?html + '<li><a href="javascript:window.scrollTo(0, 0)">回到顶部</a></li>': html;
 			html = '<ul>' + html + '</ul>';
 		}
 		return html;
