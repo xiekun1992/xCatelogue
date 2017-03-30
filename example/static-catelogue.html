@@ -5,37 +5,51 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="../src/catelogue.css">
 	<style>
+	body{
+		margin-right: 200px;
+	}
 	h1,h2,h3,h4,h5,h6{
 		height: 50em;
 	}
+	#ca{background: #ccc;}
+	#cat {
+	    position: fixed;
+	    right: 10px;
+	    top: 10px;
+	}
 	</style>
 </head>
-<body id="b">
-	<!-- <h1>title test</h1> -->
-	<!-- <h2>this is 1</h2> -->
-	<h3>this is 1.1</h3>
-	<h3>this is 1.2</h3>
-	<h3>this is 1.3</h3>
-	<h2>this is 1</h2>
-	<h3>this is 1.1</h3>
-	<h3>this is 1.2</h3>
-	<h3>this is 1.3</h3>
-	<h1>title test</h1>
-	<h2>this is 2</h2>
-	<h3>this is 2.1</h3>
-	<h3>this is 2.2</h3>
-	<h3>this is 2.3</h3>
-	<!-- <h1>title test</h1> -->
-	<h2>this is 3</h2>
-	<h3>this is 3.1</h3>
-	<h3>this is 3.2</h3>
-	<h3>this is 3.3</h3>
+<body>
+	<div id="ca"></div>
+	<div id="b">
+		<h1>title test</h1>
+		<h2>this is 1</h2>
+		<h3>this is 1.1</h3>
+		<h3>this is 1.2</h3>
+		<h3>this is 1.3</h3>
+		<h2>this is 1</h2>
+		<h3>this is 1.1</h3>
+		<h3>this is 1.2</h3>
+		<h3>this is 1.3</h3>
+		<h1>title test</h1>
+		<h2>this is 2</h2>
+		<h3>this is 2.1</h3>
+		<h3>this is 2.2</h3>
+		<h3>this is 2.3</h3>
+		<h1>title test</h1>
+		<h2>this is 3</h2>
+		<h3>this is 3.1</h3>
+		<h3>this is 3.2</h3>
+		<h3>this is 3.3</h3>
+	</div>
+	<div id="cat"></div>
 	<script src="../build/xcatelogue.js"></script>
 	<script>
 	var c = new xCatelogue({
-		contentRootElement: '#b'
+		contentContainer: '#b',
+		catelogueContainer: '#ca'
 	});
-	document.body.innerHTML += c.generateCatelogue();
+	cat.innerHTML = c.generateCatelogue();
 	c.bootstrap();
 	</script>
 </body>

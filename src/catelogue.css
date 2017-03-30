@@ -29,9 +29,6 @@
     outline: 1px solid;
 }
 .x-catelogue {
-    position: fixed;
-    right: 10px;
-    top: 20px;
     background: #fafafa;
     padding: 5px 10px 10px 10px;
     border: 1px solid #eee;

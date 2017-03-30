@@ -64,16 +64,23 @@ return /******/ (function(modules) { // webpackBootstrap
 		this.catelogue = [];
 		this.elementOffsetTop = [];
 		this.titles = {};
-		this.selector = options.contentRootElement;
+		this.selector = options.contentContainer;
 		if(this.selector){
 			this.element = document.querySelector(this.selector);
 			if(!this.element){
-				throw new Error('contentRootElement must be a valid Selector');
+				throw new Error('contentContainer must be a valid Selector');
 			}
 		}else{
-			throw new Error('contentRootElement can not be found');
+			throw new Error('contentContainer can not be found');
 		}
 		this.extractTitle();
+		if(options.catelogueContainer){
+			this.catelogueContainer = document.querySelector(options.catelogueContainer);
+			if(!this.element){
+				throw new Error('catelogueContainer must be a valid Selector');
+			}
+			this.catelogueContainer.innerHTML += this.generateCatelogue();
+		}
 	};
 	xCatelogue.prototype.extractTitle = function(){
 		// 考虑搜索引擎对h的规则，h1应当只有一个，所以从h2开始计算标题
@@ -85,8 +92,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		this.titles.h6 = Array.from(document.querySelectorAll(this.selector + ' h6'));
 		setTitlesId(this.titles);
 	};
-	xCatelogue.prototype.generateCatelogue = function(){
-		this.updateCatelogue();
+	xCatelogue.prototype.generateCatelogue = function(forceRefresh){
+		if(forceRefresh || this.catelogue.length == 0){
+			this.catelogue.length = 0;
+			this.updateCatelogue();
+		}
 		return '<div class="x-catelogue">' + catelogueToHTML(this.catelogue) + '</div>';
 	};
 	xCatelogue.prototype.updateCatelogue = function(){
@@ -109,6 +119,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				highlight(e.target.getAttribute('href'));
 			}, false);
 		}
+		onscroll();
+		window.addEventListener('scroll', onscroll);
+	
 		function highlight(hash){
 			// console.log(hash)
 			if(hash.length > 1){
@@ -116,7 +129,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				for(var a of as){
 					a.classList.remove('active');
 				}
-				document.querySelector("a[href='" + hash + "']").classList.add('active');
+				var currentHash = document.querySelectorAll("a[href='" + hash + "']");
+				currentHash && currentHash.forEach(function(h){
+					h.classList.add('active');
+				});
 			}
 		}
 		function onscroll(){
@@ -144,8 +160,6 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 			highlight('#' + id);
 		}
-		onscroll();
-		window.addEventListener('scroll', onscroll);
 	};
 	
 	var root;
