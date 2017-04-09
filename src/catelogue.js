@@ -77,8 +77,8 @@
 				}, false);
 			}
 		}
-		onscroll();
-		window.addEventListener('scroll', onscroll);
+		onscroll.call(this);
+		window.addEventListener('scroll', onscroll.bind(this));
 
 	};
 	function highlight(hash){
@@ -99,11 +99,12 @@
 		if(clicked) return clicked = false;
 		// 滚动到底了
 		var id;
-		if(window.scrollY + window.innerHeight == document.body.clientHeight){
-			id = c.elementOffsetTop[c.elementOffsetTop.length - 2].id;
+		if(window.scrollY + window.innerHeight >= document.body.clientHeight){
+			id = this.elementOffsetTop[this.elementOffsetTop.length - 2].id;
+			console.log(id)
 		}else{
-			var pre = c.elementOffsetTop[0];
-			for(var e of c.elementOffsetTop){
+			var pre = this.elementOffsetTop[0];
+			for(var e of this.elementOffsetTop){
 				// 计算出现的偏移量容错
 				if(e.offsetTop == window.scrollY || e.offsetTop == window.scrollY + 1){
 					// console.log(e);
