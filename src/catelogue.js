@@ -141,18 +141,20 @@ var countOffsetTop = function(element){
 var seekForHierarchy = function(element, tree){
 	if(element instanceof HTMLElement){
 		var node = {self: element, children: [], parent: tree};
-		tree.children.push(node);
 
 		var titleTags = ["H1", "H2", "H3", "H4", "H5", "H6"];
 		var tagName = element.tagName;
 		var tagNameIndex = titleTags.indexOf(tagName);
-		
 		var nextElement = element.nextElementSibling;
+
+		if(tagNameIndex != -1){
+			tree.children.push(node);
+		}
 		if(nextElement){
 			var pos = titleTags.indexOf(nextElement.tagName);
 			if(pos == -1){ //非标题标签
-				return ;
-			}else if(pos > tagNameIndex){ //子标题
+				seekForHierarchy(nextElement, (tagNameIndex != -1?node: tree));
+			}else if(tagNameIndex != -1 && pos > tagNameIndex){ //子标题
 				// node.children.push(nextElement);
 				seekForHierarchy(nextElement, node);
 			}else if(pos == tagNameIndex){ //同级标题
@@ -160,10 +162,18 @@ var seekForHierarchy = function(element, tree){
 				seekForHierarchy(nextElement, tree);
 			}else{ //父级标题
 				var parentNode = tree;
-				while(parentNode && parentNode.self.tagName != nextElement.tagName){
-					parentNode = parentNode.parent;
+				if(tagNameIndex != -1){
+					while(parentNode && parentNode.self.tagName != nextElement.tagName){
+						parentNode = parentNode.parent;
+					}
+					seekForHierarchy(nextElement, parentNode && parentNode.parent || root);
+				}else{
+					//非标题元素寻找下一元素的父级标题
+					while(parentNode && titleTags.indexOf(parentNode.self.tagName) >= titleTags.indexOf(nextElement.tagName)){
+						parentNode = parentNode.parent;
+					}
+					seekForHierarchy(nextElement, parentNode && parentNode || root);
 				}
-				seekForHierarchy(nextElement, parentNode && parentNode.parent || root);
 			}
 		}
 	}
