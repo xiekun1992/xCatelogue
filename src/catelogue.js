@@ -101,7 +101,6 @@
 		var id;
 		if(window.scrollY + window.innerHeight >= document.body.clientHeight){
 			id = this.elementOffsetTop[this.elementOffsetTop.length - 2].id;
-			console.log(id)
 		}else{
 			var pre = this.elementOffsetTop[0];
 			for(var e of this.elementOffsetTop){
@@ -174,16 +173,13 @@
 					seekForHierarchy(nextElement, tree);
 				}else{ //父级标题
 					var parentNode = tree;
+					//非标题元素寻找下一元素的父级标题
+					while(parentNode && titleTags.indexOf(parentNode.self.tagName) >= titleTags.indexOf(nextElement.tagName)){
+						parentNode = parentNode.parent;
+					}
 					if(tagNameIndex != -1){
-						while(parentNode && parentNode.self.tagName != nextElement.tagName){
-							parentNode = parentNode.parent;
-						}
 						seekForHierarchy(nextElement, parentNode && parentNode.parent || root);
 					}else{
-						//非标题元素寻找下一元素的父级标题
-						while(parentNode && titleTags.indexOf(parentNode.self.tagName) >= titleTags.indexOf(nextElement.tagName)){
-							parentNode = parentNode.parent;
-						}
 						seekForHierarchy(nextElement, parentNode && parentNode || root);
 					}
 				}
