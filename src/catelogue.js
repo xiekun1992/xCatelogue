@@ -1,11 +1,11 @@
 (function(xCatelogue){
-	if(typeof define === 'function' && define.amd){
-		define('xCatelogue', function(){
-			return xCatelogue();
-		});
-	}else if(typeof module === 'object' && module.exports){
+	if(typeof define === 'function' && define.amd){ //amd
+		define('xCatelogue', xCatelogue);
+	}else if(typeof module === 'object' && module.exports && typeof exports === 'object'){//commonjs
 		module.exports = xCatelogue();
-	}else{
+	}else if(typeof exports === 'object'){ //es6
+		exports.xCatelogue = xCatelogue();
+	}else{ //default
 		this.xCatelogue = xCatelogue();
 	}
 })(function(){
