@@ -1,0 +1,8 @@
+#catelogue{
+    bottom: 10px;
+    overflow: auto;
+    background: #ccc;
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
