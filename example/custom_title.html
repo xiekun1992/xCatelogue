@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../src/catelogue.css">
+	<style>
+	body{
+		margin-right: 200px;
+	}
+	h1,h2,h3,h4,h5,h6{
+		/*height: 50em;*/
+	}
+	#ca{background: #ccc;}
+	#cat {
+	    position: fixed;
+	    right: 10px;
+	    top: 10px;
+	}
+	</style>
+</head>
+<body>
+	<div id="ca"></div>
+	<div id="b">
+		<div title="t1">title test h1</div>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<div title="t2">this is h2</div>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<div title="t3">this is h3</div>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<div title="t3">this is h3</div>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<div title="t3">this is h3</div>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<p>标题段落测试文本</p>
+		<div title="t2">this is h2</div>
+		<div>this is h3</div>
+		<div>this is h3</div>
+		<div>this is h3</div>
+		<div>title test h1</div>
+		<div>this is h2</div>
+		<div>this is h3</div>
+		<div>this is h3</div>
+		<div>this is h3</div>
+		<div>title test h1</div>
+		<div>this is h2</div>
+		<div>this is h3</div>
+		<div>this is h3</div>
+		<div>this is h3</div>
+	</div>
+	<div id="cat"></div>
+	<script src="../src/catelogue.js"></script>
+	<script>
+	var c = new xCatelogue({
+		contentContainer: '#b',
+		customTitleAttr: 'title',
+		customTitles: ['t1', 't2', 't3']
+		// catelogueContainer: '#ca'
+	});
+	cat.innerHTML = c.generateCatelogue();
+	c.bootstrap();
+	</script>
+</body>
+</html>
