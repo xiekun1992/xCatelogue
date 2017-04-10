@@ -2,7 +2,7 @@
   "name": "x-category",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "",
   "directories": {
     "doc": "docs",
     "test": "test"
@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/xiekun1992/xCatelogue#readme",
   "devDependencies": {
-    "webpack": "^2.3.1"
+    "gulp": "^3.9.1",
+    "gulp-insert": "^0.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2"
   }
 }
